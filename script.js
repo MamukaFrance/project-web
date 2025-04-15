@@ -5,8 +5,6 @@ $('#nom').on("input", function(){
     let condition = val.length < 3
     alert(nom, condition)
     alertText(condition, id)
-
-    //valider(nom, condition, id)
 })
 
 $('#email').on("input", function(){
@@ -15,46 +13,61 @@ $('#email').on("input", function(){
     let id = "#email-alert"
     let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let condition = !regex.test(val)
-    //console.log(condition);
     alert(email, condition)
     alertText(condition, id)
-
-    //valider(email, condition, id)
 })
 
 $('#password').on("input", function(){
     let password = $("#password")
-    let val = password.val()
+    let passwordVal = password.val()
     let id = "#password"
     let  regex = /^(?=.*[0-9])(?=.*[\W_]).{6,}$/;
-    let condition = !regex.test(val)
+    let condition = !regex.test(passwordVal)
     alert(password, condition)
+    let fort = passwordValider(passwordVal)
+    console.log(fort);
+    
+    updateDisplayLines(fort)
+
+})
+$('#confirme-password').on("input", function(){
+    let confirmePassword = $('#confirme-password')
+    let condition = $("#password").val() != $("#confirme-password").val()
+    alert(confirmePassword, condition)
 })
 
-function confirmePassword(){
-    if (condition) {
-        
-    }
+function passwordValider( val){
+    let fort = 0
+    if (val > 6) fort++
+    if (/[a-zA-Z]/.test(val)) fort++
+    if (/[0-9]/.test(val)) fort++
+    const regex = /^(?=.*[0-9])(?=.*[\W_]).{8,}$/
+    if (regex.test(val)) fort = 3
+    return fort
+}
+function updateDisplayLines(fort){
+     $(".lines button").hide()
+     $(".spans span").hide()
 
+    if (fort === 1) {
+        $(".line-orang").show()
+        $("#orang").show()
+       }
+    if (fort === 2){
+        $(".line-orang").show()
+        $("#orang").show()
+        $(".line-yellow").show()
+        $("#yellow").show()
+    } 
+        
+    if (fort === 3){
+        $(".line-orang").show()
+        $(".line-yellow").show()
+        $(".line-green").show()
+    }
+         
 }
 
-
-
-
-
-
-// function valider(nom, condition, id){
-//     if (condition) {
-//         $(id).removeClass("invisible")
-//         $(id).addClass("visible")
-//         nom.addClass("form-control is-invalid"); 
-//     }else{
-//         $(id).removeClass("visible")
-//         $(id).addClass("invisible")
-//         nom.removeClass("is-invalid")
-//         nom.addClass("is-valid"); 
-//     }
-// }
 function alert(nom, condition){
     if(condition) {
         nom.addClass("form-control is-invalid"); 

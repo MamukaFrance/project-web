@@ -73,7 +73,36 @@ h6{
 #nom-indice{
     display: none;
     color: red;
+} 
+.lines>button{
+    display: none;
+    width: 30%;
+    margin-right: 10px;
 }
+.lines>button:not-last-child{
+    margin-right: 5px;
+}
+.line-orang {
+    
+    background-color: orangered;
+}
+.line-yellow{
+    background-color: yellow;
+}
+.line-green{
+    background-color: green;
+}
+.spans>span{
+    display: none;
+    width: 30%;
+}
+span{
+    margin-right: 10px;
+}
+
+
+
+
 .section-form{
     
 }
