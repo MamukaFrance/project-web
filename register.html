@@ -16,6 +16,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="style.css" />
+    <script defer src="jquery.js"></script>
     <script defer src="script.js"></script>
   </head>
   <body>
@@ -43,19 +44,22 @@
     </header>
     <main class="d-flex justify-content-center">
       <section class="section-form ">
-        <fieldset>
-          <form class="form main text-start" title="formulaire" action="" method="post" >
+        <fieldset class="d-flex justify-content-center" >
+          <form class="form main main-register text-start" title="formulaire" action="" method="post" >
             <legend class="text-center">Inscrivez-vous</legend>
             <label for="nom">Nom'utilisateur</label>
-            <input type="text" id="nom" />
+            <input type="text" id="nom" placeholder="3 caractères minimume"/>
             <label for="email">Ecrivez votre email</label>
-            <input type="email" />
+            <input type="email" placeholder="Votre email"/>
             <label for="password">Mot de passe</label>
-            <input id="password" type="password" />
+            <input id="password" type="password" placeholder="Votre mot de passe"/>
+            <h6>Au moins un symbole, un chiffre ansi que 6 caracter minimume.</h6>
             <label for="confirme-password">Confirmez le mot de passe</label>
-            <input id="confirme-password" type="password" />
-            <button id="submit" type="submit">Creation du compte</button>
-            <button id="cancel">Annuler</button>
+            <input id="confirme-password" type="password" placeholder="Confirmation de mot de passe"/>
+            <div class="buttons d-flex justify-content-around">
+              <button class="btn btn-light" id="submit" type="submit">Creation du compte</button>
+              <button class="btn btn-light" id="cancel" type="reset">Annuler</button>
+            </div>
           </form>
         </fieldset>
       </section>

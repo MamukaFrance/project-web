@@ -10,16 +10,12 @@ h1{
 }
 .menu{
    max-width: 40%;
-   
    border-radius: 5px;
-   
 }
 .menu__list{
     list-style-type: none;
     background-color: black;
     padding: 10px;
-    
-    
     border: 2px solid #fff;
 }
 .menu__item{
@@ -32,21 +28,19 @@ h1{
 }
 .main{
     max-width: 50%;
-}
-.detail{
-    max-height: 400px;
-}
-.image{
-    max-width: 50%;
-    
-}
-.main{
     background-color: black;
     color: white;
     border: 1px solid #fff;
     border-radius: 15px;
     padding: 20px;
 }
+.detail{
+    max-height: 400px;
+}
+.image{
+    max-width: 50%;
+}
+
 .rules ul{
     padding: 20px;
 }
@@ -54,11 +48,36 @@ h1{
 label{
     display: block;
 }
+input{
+    display: block;
+    background-color: black;
+    border: none;
+    border-bottom: 1px solid white;
+    margin-bottom: 15px;
+    width: 100%;
+    color: white;
+}
+h6{
+    color: darkgrey;
+}
+.main-register{
+    max-width: 100%;
+}
 .section-form{
-    width: 70%;
+    
+}
+.buttons{
+
+}
+
+.form{
+    
 }
 fieldset{
-    width: 700px;
+    
+}
+button{
+    
 }
 
 
