@@ -60,8 +60,19 @@ input{
 h6{
     color: darkgrey;
 }
+.visible{
+    display: block;
+    color: red;
+}
+.invisible{
+    display: none;
+}
 .main-register{
     max-width: 100%;
+}
+#nom-indice{
+    display: none;
+    color: red;
 }
 .section-form{
     
