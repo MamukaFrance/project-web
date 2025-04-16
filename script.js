@@ -114,13 +114,23 @@ $('#form_connexion').on("submit", function(e) {
     e.preventDefault() // Empêcher la soumission réelle du formulaire
 
     let users = getUsers()
-    if (!users) {
-        alert("Vous n'est pas inscrit")
-    }
     let email = $('#email-connecter').val()
     let password = $('#password-connecter').val()
 
     let check = checkEmailPassword(users, email, password)
+
+     let curentUser = getCurentUser()
+    if (curentUser){
+        localStorage.removeItem('curentUser')
+    }
+    let newCurentUser ={
+        email: email,
+        password: password
+    }
+    localStorage.setItem("curentUser", JSON.stringify(newCurentUser))
+    
+    
+    
     
     if (check) {
         alert("L'email " + email + " est connecter")
@@ -129,6 +139,11 @@ $('#form_connexion').on("submit", function(e) {
     }
 });
 
+function getCurentUser(){
+    if (localStorage.getItem("curentUser")) {
+        return JSON.parse(localStorage.getItem("curentUser"))
+    }else return {}
+}
 
 function addUser(users, nom, email, password){
     let user = {
@@ -184,8 +199,18 @@ function getUsers(){
         return []
     }
 }
+
     
-   
+$('#choixMemory').on('change', function(){
+    if ($(this).val() == 'animeaux-animes') $('.img-detail').attr('src', '/image/animauxAnimes/memory_detail_animaux_animes.png')
+    if ($(this).val() == 'alphabet-scrabble') $('.img-detail').attr('src', '/image/alphabet-scrabble/memory_detail_scrabble.png')
+    if ($(this).val() == 'animaux') $('.img-detail').attr('src', '/image/animaux/memory_detail_animaux.png')
+    if ($(this).val() == 'animauxdomestiques') $('.img-detail').attr('src', '/image/animauxdomestiques/memory_detail_animaux_domestiques.png')
+    if ($(this).val() == 'chiens') $('.img-detail').attr('src', '/image/chiens/memory_details_chiens.png')
+    if ($(this).val() == 'dinosaures') $('.img-detail').attr('src', '/image/dinosaures/memory_detail_dinosaures.png')
+    if ($(this).val() == 'dinosauresAvecNom') $('.img-detail').attr('src', '/image/dinosauresAvecNom/memory_details_dinosaures_avec_nom.png')
+    if ($(this).val() == 'memory-legume') $('.img-detail').attr('src', '/image/memory-legume/memory_detail.png')
+})
     
 
   
