@@ -43,15 +43,15 @@
       </nav>
     </header>
     <main class="d-flex justify-content-center">
-      <section class="section-form ">
+      <section class="section-form">
         <fieldset class="d-flex justify-content-center" >
-          <form class="form main main-register text-start" title="formulaire" action="" method="post" >
+          <form id="register_form" class="main main-register text-start" method="post" >
             <legend class="text-center">Inscrivez-vous</legend>
             <label for="nom">Nom'utilisateur</label>
-            <input class="" type="text" id="nom" placeholder="3 caractères minimume"/>
+            <input id="nom" type="text" placeholder="3 caractères minimume"/>
             <h6 id="nom-alert" class="invisible">Choisissez un pseudo au moins 3 caracter</h6>
             <label for="email">Ecrivez votre email</label>
-            <input id="email" pattern=".+@example\.com" type="email" placeholder="Votre email"/>
+            <input id="email"  type="email" placeholder="Votre email"/>
             <h6 id="email-alert" class="invisible">rentrez un email valid</h6>
             <label for="password">Mot de passe</label>
             <input id="password" type="password" placeholder="Votre mot de passe"/>

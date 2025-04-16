@@ -3,7 +3,7 @@ $('#nom').on("input", function(){
     let  val = nom.val()
     let id = "#nom-alert"
     let condition = val.length < 3
-    alert(nom, condition)
+    alerte(nom, condition)
     alertText(condition, id)
 })
 
@@ -13,7 +13,7 @@ $('#email').on("input", function(){
     let id = "#email-alert"
     let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let condition = !regex.test(val)
-    alert(email, condition)
+    alerte(email, condition)
     alertText(condition, id)
 })
 
@@ -23,7 +23,7 @@ $('#password').on("input", function(){
     let id = "#password"
     let  regex = /^(?=.*[0-9])(?=.*[\W_]).{6,}$/;
     let condition = !regex.test(passwordVal)
-    alert(password, condition)
+    alerte(password, condition)
     let fort = passwordValider(passwordVal)
     console.log(fort);
     
@@ -33,7 +33,7 @@ $('#password').on("input", function(){
 $('#confirme-password').on("input", function(){
     let confirmePassword = $('#confirme-password')
     let condition = $("#password").val() != $("#confirme-password").val()
-    alert(confirmePassword, condition)
+    alerte(confirmePassword, condition)
 })
 
 function passwordValider( val){
@@ -68,7 +68,7 @@ function updateDisplayLines(fort){
          
 }
 
-function alert(nom, condition){
+function alerte(nom, condition){
     if(condition) {
         nom.addClass("form-control is-invalid"); 
     }else{
@@ -86,4 +86,109 @@ if (condition) {
     $(id).addClass("invisible")
 }
 }
+
+
+$('#register_form').on("submit", function(e){
+    e.preventDefault()
+    let nom = $("#nom").val()
+    let email = $('#email').val()
+    let password = $('#password').val()
+
+    let users = getUsers()
+
+    let chNom = checkNom(users, nom)
+   
+    let chEmail = checkEmail(users, email)
+
+    if (chNom) {
+        alert("Nom'utilisateur " + nom + " est déja utilisé. Veuillez saisir un nouvel Nom'utilisateur")
+    }else if(chEmail) {
+        alert("email " + email + " est déja utilisé. Veuillez saisir un nouvel email")
+    }else{
+        addUser(users, nom, email, password)
+    }
+    
+})
+
+$('#form_connexion').on("submit", function(e) {
+    e.preventDefault() // Empêcher la soumission réelle du formulaire
+
+    let users = getUsers()
+    if (!users) {
+        alert("Vous n'est pas inscrit")
+    }
+    let email = $('#email-connecter').val()
+    let password = $('#password-connecter').val()
+
+    let check = checkEmailPassword(users, email, password)
+    
+    if (check) {
+        alert("L'email " + email + " est connecter")
+    }else{
+        alert("Erreur, veuillez saisir les information correctement")
+    }
+});
+
+
+function addUser(users, nom, email, password){
+    let user = {
+        nom : nom,
+        email : email,
+        password :password
+    }
+    users.push(user)
+    localStorage.removeItem('users') 
+    localStorage.setItem('users', JSON.stringify(users));
+
+}
+
+
+function checkEmailPassword(users, email, password){
+    let check = false;
+    users.forEach(element => {
+        if ( element.email === email && element.password === password ) {
+            check = true
+        }
+    });
+    return check
+
+}
+
+
+function checkNom(users, nom){
+    let check = false;
+    users.forEach(element => {
+        if (element.nom === nom) {
+            check = true
+        }
+    });
+    return check
+}
+
+function checkEmail(users, email){
+    let check = false;
+    users.forEach(element => {
+        if (element.email === email) {
+            check = true
+        }
+    });
+    return check
+}
+
+
+
+function getUsers(){
+    if (localStorage.getItem('users')) {
+        return JSON.parse( localStorage.getItem('users'))
+    }else{
+        return []
+    }
+}
+    
+   
+    
+
+  
+
+ 
 

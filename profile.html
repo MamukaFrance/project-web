@@ -33,7 +33,30 @@
       
       </nav>
   
-      </header>  
+      </header> 
+      
+      <main >
+        <section class="profile" >
+          <fieldset class="d-flex justify-content-center">
+            <form id="profile_form" class=" main" method="post">
+            <legend class="text-center">Profil</legend>
+            <div class="divProfile mb-3"><img src="/image/question.svg" class="profileImg rounded-circle" alt=""></div>
+            <label for="nom-profile">Nom d'utilisateur</label>
+            <input id="nom-profile" type="text">
+            <label for="email-profile">Email</label>
+            <input id="email-profile" type="text">
+            <div class="d-grid col-6 mx-auto">
+              <button class="registerButton btn btn-light mb-3 me-3 " type="submit">Enregistrez Option</button>
+            </div>
+            <select name="choixMemory" id="choixMemory">
+              <option value="choixMemory">Animaux animés</option>
+              <option value="choixMemory">alphabet-scrabble</option>
+              <option value="choixMemory">animaux</option>
+            </select>
+          </form>
+          </fieldset>
+        </section>
+      </main>
     
 </body>
 </html>

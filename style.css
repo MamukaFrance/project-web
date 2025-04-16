@@ -100,25 +100,28 @@ span{
     margin-right: 10px;
 }
 
-
-
-
-.section-form{
-    
-}
-.buttons{
-
+.connecter-form{
+    width: 900px
 }
 
-.form{
-    
+#profile_form{
+    width: 900px
 }
-fieldset{
-    
+.profileImg{
+    border: 1px solid white;
+
 }
-button{
-    
+.divProfile{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+.registerButton{
+    align-items: center; 
+}
+
+
 
 
 
