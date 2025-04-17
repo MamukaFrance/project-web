@@ -34,8 +34,10 @@ function displayProfile(){
     let size = curentUser.size
     $('#nom-profile').val(nom)
     $('#email-profile').val(email)
+    
     $('#choixMemory').val(choixMemory)
     $('#size').val(size)
+    
     $('#pseudo').text(email)
     $('#taille').text(size)
     $('#chMemory').text(choixMemory)
