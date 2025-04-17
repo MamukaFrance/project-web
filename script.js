@@ -107,7 +107,7 @@ $('#register_form').on("submit", function(e){
     }else{
         addUser(users, nom, email, password)
     }
-    
+    window.location.replace('http://127.0.0.1:5500/connect.html');
 })
 
 $('#form_connexion').on("submit", function(e) {
@@ -119,25 +119,47 @@ $('#form_connexion').on("submit", function(e) {
 
     let check = checkEmailPassword(users, email, password)
 
-     let curentUser = getCurentUser()
-    if (curentUser){
-        localStorage.removeItem('curentUser')
-    }
-    let newCurentUser ={
-        email: email,
-        password: password
-    }
-    localStorage.setItem("curentUser", JSON.stringify(newCurentUser))
-    
-    
-    
-    
     if (check) {
         alert("L'email " + email + " est connecter")
     }else{
         alert("Erreur, veuillez saisir les information correctement")
     }
+    
+   let oldCurentUser = getCurentUser()
+     
+    if (oldCurentUser){
+        localStorage.removeItem('curentUser')
+    }
+
+   addCurentUser(email)
+
+
+   window.location.href = '/profile.html'
+   
+   
+   
+    
 });
+
+
+
+function addCurentUser(email){
+    let users = getUsers()
+    let curentUser = users.find(user => user.email === email)
+    let curentNom = curentUser.nom
+    let curentEmail = curentUser.email
+    let curentPassword = curentUser.password
+
+    let newCurentUser ={
+        nom : curentNom,
+        email: curentEmail,
+        password: curentPassword
+    }
+    localStorage.setItem("curentUser", JSON.stringify(newCurentUser))
+
+}
+
+
 
 function getCurentUser(){
     if (localStorage.getItem("curentUser")) {
@@ -201,16 +223,7 @@ function getUsers(){
 }
 
     
-$('#choixMemory').on('change', function(){
-    if ($(this).val() == 'animeaux-animes') $('.img-detail').attr('src', '/image/animauxAnimes/memory_detail_animaux_animes.png')
-    if ($(this).val() == 'alphabet-scrabble') $('.img-detail').attr('src', '/image/alphabet-scrabble/memory_detail_scrabble.png')
-    if ($(this).val() == 'animaux') $('.img-detail').attr('src', '/image/animaux/memory_detail_animaux.png')
-    if ($(this).val() == 'animauxdomestiques') $('.img-detail').attr('src', '/image/animauxdomestiques/memory_detail_animaux_domestiques.png')
-    if ($(this).val() == 'chiens') $('.img-detail').attr('src', '/image/chiens/memory_details_chiens.png')
-    if ($(this).val() == 'dinosaures') $('.img-detail').attr('src', '/image/dinosaures/memory_detail_dinosaures.png')
-    if ($(this).val() == 'dinosauresAvecNom') $('.img-detail').attr('src', '/image/dinosauresAvecNom/memory_details_dinosaures_avec_nom.png')
-    if ($(this).val() == 'memory-legume') $('.img-detail').attr('src', '/image/memory-legume/memory_detail.png')
-})
+
     
 
   

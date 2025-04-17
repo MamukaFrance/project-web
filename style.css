@@ -128,6 +128,16 @@ span{
     margin: 0 auto;
 }
 
+.div-images{
+    max-width: 380px;
+    margin: 0 auto;
+}
+.image{
+    background-color: white;
+    border-radius: 5px;
+}
+
+
 
 
 
