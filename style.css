@@ -158,16 +158,16 @@ h1 {
 }
 
 
-/* #maGalerie {
+#maGalerie {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    max-width: 600px;
+    max-width: 100%;
   }
 
   .carte {
-    width: 150px;
-    height: 150px;
+    width: 212px;
+    height: 212px;
     perspective: 1000px;
   }
 
@@ -206,4 +206,4 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  } */
+  }

@@ -1,46 +1,48 @@
 let animaux = getImagesArr(28, 'webp', 'animaux')
 let animauxAnimes = getImagesArr(8, 'webp', 'animauxAnimes')
+let count = 0
 
+let cards = getChoix()
+addCards(cards)
 
-
-let boxSize =  getBoxSize() 
-addQuestionMark(boxSize, "/image/question.svg")
+// let boxSize =  getBoxSize() 
+// addQuestionMark(boxSize, "/image/question.svg")
 
     
 
 $(document).on('keydown', function(e){
-    let count = 0
     if (e.code === "Space" || e.keyCode === 32) {
         e.preventDefault()
-        console.log("Touche Espace pressée !")
-        let cards = getChoix()
-        
-        playGame(count, cards)
+        count++
+        removeCards(cards)
+        playGame(cards)
+        reverseCard()
+    
     }
 })
 
 
-function playGame(count, cards){
-    count ++
-    $('.coups').text('Nombre de coups :' + count)
-    let boxSize =  getBoxSize()
-    removeCards(boxSize)
-    const shuffledCards = shuffle(cards)
-    let url = "/image/"
-    addCards(url, shuffledCards)  
-}
+// function playGameOld(count, cards){
+//     count ++
+//     $('.coups').text('Nombre de coups :' + count)
+//     let boxSize =  getBoxSize()
+//     removeCards(boxSize)
+//     const shuffledCards = shuffle(cards)
+//     let url = "/image/"
+//     addCards(url, shuffledCards)  
+// }
 
-function removeCards(boxSize){
-    for (let index = 0; index < boxSize; index++) {
-        $('.div-images img').remove()    
-    }
-}
+// function removeCards(boxSize){
+//     for (let index = 0; index < boxSize; index++) {
+//         $('.div-images img').remove()    
+//     }
+// }
 
-function addCards(url, arr){
-    for (const element of arr) {
-        $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url}${element} alt="image">`)
-    }
-}
+// function addCards(url, arr){
+//     for (const element of arr) {
+//         $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url}${element} alt="image">`)
+//     }
+// }
 
 function shuffle(arr){
     for (let i = 0; i < arr.length; i++) {
@@ -50,11 +52,11 @@ function shuffle(arr){
     return arr
 }
 
-function addQuestionMark(boxSize, url){
-    for (let index = 0; index < boxSize; index++) {
-        $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url} alt="image">`)    
-    }
-}
+// function addQuestionMark(boxSize, url){
+//     for (let index = 0; index < boxSize; index++) {
+//         $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url} alt="image">`)    
+//     }
+// }
 
 function getBoxSize(){
 let curentUser = JSON.parse(localStorage.getItem('curentUser')) 
@@ -104,37 +106,67 @@ function getImagesArr(number, type, folder){
 
 
 
-// $(document).ready(function () {
-//     const images = [
-//         'img1.jpg', 'img2.jpg', 'img3.jpg',
-//         'img4.jpg', 'img5.jpg', 'img6.jpg',
-//         'img7.jpg', 'img8.jpg', 'img9.jpg'
-//     ];
+function playGame(cards) {
+    $('.coups').text('Nombre de coups :' + count)
+    const shuffled = shuffle(cards);
+    shuffled.forEach(src => {
+        const carte = $(`
+            <div class="carte">
+                <div class="inner-carte">
+                    <div class="face front"></div>
+                    <div class="face back"><img src=/image/${src} alt="Image"></div>
+                </div>
+            </div>
+        `);
+        
+        // carte.on('click', function () {
+        //     $(this).toggleClass('flipped');
+        // });
+        $('#maGalerie').append(carte);
+    }); 
+}
 
-//     function shuffle(array) {
-//         for (let i = array.length - 1; i > 0; i--) {
-//             const j = Math.floor(Math.random() * (i + 1));
-//             [array[i], array[j]] = [array[j], array[i]];
-//         }
-//         return array;
-//     }
+function reverseCard() {
+    let counter = 0;
 
-//     const shuffled = shuffle(images);
+    // Créer une fonction de gestionnaire de clics distincte
+    function handleCarteClick() {
+        $(this).addClass('flipped');
+        
+        counter++;
+        console.log('Compteur : ' + counter);
 
-//     shuffled.forEach(src => {
-//         const carte = $(`
-//             <div class="carte">
-//                 <div class="inner-carte">
-//                     <div class="face front"></div>
-//                     <div class="face back"><img src="${src}" alt="Image"></div>
-//                 </div>
-//             </div>
-//         `);
+        if (counter >= 2) {
+            console.log('Attente de 3 secondes...');
+            // Désactiver le clic sur toutes les cartes
+            $('.carte').off('click', handleCarteClick);
 
-//         carte.on('click', function () {
-//             $(this).toggleClass('flipped');
-//         });
+            setTimeout(function() {
+                counter = 0;
+                console.log('Compteur remis à zéro');
+                // Réactiver le clic après 3 secondes
+                $('.carte').on('click', handleCarteClick);
+            }, 3000);
+        }
+    }
 
-//         $('#maGalerie').append(carte);
-//     });
-// });
+    // Attacher le gestionnaire de clic initial
+    $('.carte').on('click', handleCarteClick);
+}
+
+
+function addCards(cards){
+    cards.forEach(src => {
+        const carte = $(`
+            <div class="carte">
+                <div class="inner-carte">
+                    <div class="face front"></div>
+                </div>
+            </div>
+        `);
+        $('#maGalerie').append(carte);
+    }); 
+}
+function removeCards(cards){
+    $('#maGalerie div').remove()
+}
