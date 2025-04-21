@@ -86,7 +86,7 @@ if (condition) {
     $(id).addClass("invisible")
 }
 }
-
+//================================================//
 
 $('#register_form').on("submit", function(e){
     e.preventDefault()
@@ -107,7 +107,7 @@ $('#register_form').on("submit", function(e){
     }else{
         addUser(users, nom, email, password)
     }
-    window.location.replace('http://127.0.0.1:5500/connect.html');
+    window.location.replace('/connect.html');
 })
 
 $('#form_connexion').on("submit", function(e) {
@@ -130,17 +130,9 @@ $('#form_connexion').on("submit", function(e) {
     if (oldCurentUser){
         localStorage.removeItem('curentUser')
     }
-
    addCurentUser(email)
-
-
    window.location.href = '/profile.html'
-   
-   
-   
-    
 });
-
 
 
 function addCurentUser(email){
@@ -158,7 +150,6 @@ function addCurentUser(email){
     localStorage.setItem("curentUser", JSON.stringify(newCurentUser))
 
 }
-
 
 
 function getCurentUser(){
@@ -213,7 +204,6 @@ function checkEmail(users, email){
 }
 
 
-
 function getUsers(){
     if (localStorage.getItem('users')) {
         return JSON.parse( localStorage.getItem('users'))
@@ -221,12 +211,3 @@ function getUsers(){
         return []
     }
 }
-
-    
-
-    
-
-  
-
- 
-

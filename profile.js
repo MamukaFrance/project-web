@@ -16,9 +16,13 @@ $('#choixMemory').on('change', function(){
 
 $('#register').on("click", function(e){
     e.preventDefault()
-   
-    let curentUser = JSON.parse(localStorage.getItem("curentUser"))
+    
+    let curentUser = getLocalArray("curentUser")
+    
     curentUser.choixMemory = $('#choixMemory').val()
+    if (curentUser.score) {
+        curentUser.score = $('#score').val()
+    }
     curentUser.size = $('#size').val()
     localStorage.removeItem('curentUser')
     localStorage.setItem('curentUser', JSON.stringify(curentUser))
@@ -34,22 +38,22 @@ function displayProfile(){
     let size = curentUser.size
     $('#nom-profile').val(nom)
     $('#email-profile').val(email)
-    
     $('#choixMemory').val(choixMemory)
     $('#size').val(size)
     
     $('#pseudo').text(email)
+    if (curentUser.score) $('#score') .text(curentUser.score)
+    if (curentUser.date) $('#date') .text(curentUser.date)
     $('#taille').text(size)
     $('#chMemory').text(choixMemory)
-    $('#date').text(curentDate ())
+    $('#date').text()
 
 }
 
-function curentDate (){
-    let now = new Date();
-    let jour = String(now.getDate()).padStart(2, '0');
-    let mois = String(now.getMonth() + 1).padStart(2, '0'); // Mois = 0 à 11
-    let annee = now.getFullYear();
-    let dateFormatee = jour + '/' + mois + '/' + annee;
-    return dateFormatee
+
+
+function getLocalArray(element){
+    if(localStorage.getItem(element))  {
+    return JSON.parse(localStorage.getItem(element))
+    }else return []
 }

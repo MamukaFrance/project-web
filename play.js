@@ -1,48 +1,38 @@
 let animaux = getImagesArr(28, 'webp', 'animaux')
 let animauxAnimes = getImagesArr(8, 'webp', 'animauxAnimes')
-let count = 0
+let animauxdomestiques = getImagesArr(10, 'jpg', 'animauxdomestiques')
+let chiens = getImagesArr(23, 'webp', 'chiens')
+let dinosaures = getImagesArr(10, 'jpg', 'dinosaures')
+let dinosauresAvecNom = getImagesArr(10, 'jpg', 'dinosauresAvecNom')
+let memorylegume = getImagesArr(6, 'svg', 'memory-legume')
+let alphabetscrabble = getImagesArr(26, 'png', 'alphabet-scrabble')
+
+
+let coups = 0
 
 let cards = getChoix()
+
 addCards(cards)
 
-// let boxSize =  getBoxSize() 
-// addQuestionMark(boxSize, "/image/question.svg")
+let bestScores = localStorage.getItem('bestScores')
 
-    
+if (bestScores) {
+   
+    displayBestScore()
+}
 
 $(document).on('keydown', function(e){
+    coups = 0
     if (e.code === "Space" || e.keyCode === 32) {
+        $('.text').text("Tentez de gagner avec le moins d'essais possible.")
+        $('.coups').text('Nombre de coups : 0')
         e.preventDefault()
-        count++
         removeCards(cards)
         playGame(cards)
-        reverseCard()
-    
+        reverseCard()  
     }
 })
 
-
-// function playGameOld(count, cards){
-//     count ++
-//     $('.coups').text('Nombre de coups :' + count)
-//     let boxSize =  getBoxSize()
-//     removeCards(boxSize)
-//     const shuffledCards = shuffle(cards)
-//     let url = "/image/"
-//     addCards(url, shuffledCards)  
-// }
-
-// function removeCards(boxSize){
-//     for (let index = 0; index < boxSize; index++) {
-//         $('.div-images img').remove()    
-//     }
-// }
-
-// function addCards(url, arr){
-//     for (const element of arr) {
-//         $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url}${element} alt="image">`)
-//     }
-// }
 
 function shuffle(arr){
     for (let i = 0; i < arr.length; i++) {
@@ -51,12 +41,6 @@ function shuffle(arr){
     }
     return arr
 }
-
-// function addQuestionMark(boxSize, url){
-//     for (let index = 0; index < boxSize; index++) {
-//         $('.div-images').append(`<img class="image fluid-img me-2 mb-2" src= ${url} alt="image">`)    
-//     }
-// }
 
 function getBoxSize(){
 let curentUser = JSON.parse(localStorage.getItem('curentUser')) 
@@ -83,31 +67,36 @@ function getChoix(){
             break;
         case 'animauxAnimes': return animauxAnimes
             break;
-        case 'alphabet-scrabble': return alphabet-scrabble
+        case 'alphabet-scrabble': return alphabetscrabble
             break;
         case 'animauxdomestiques': return animauxdomestiques
+            break;
+        case 'chiens': return chiens
+            break;
+        case 'dinosaures': return dinosaures
+            break;
+        case 'dinosauresAvecNom': return dinosauresAvecNom
+            break;
+        case 'memory-legume': return memorylegume
+            break;
         default:
             break;
     }
-
-
     return 
 }
 
 
 function getImagesArr(number, type, folder){
     let arr = []
-    for (let index = 0; index < number; index++) {
-        arr.push(folder +'/' + (index+1) + '.' + type)  
-    }
-    return arr
+    for (let i = 0; i < 2; i ++ ) {
+        for (let j = 0; j < number; j++) {
+            arr.push(folder +'/' + (j + 1) + '.' + type)  
+        }
+    } return arr  
 }
 
-
-
-
 function playGame(cards) {
-    $('.coups').text('Nombre de coups :' + count)
+   
     const shuffled = shuffle(cards);
     shuffled.forEach(src => {
         const carte = $(`
@@ -118,42 +107,55 @@ function playGame(cards) {
                 </div>
             </div>
         `);
-        
-        // carte.on('click', function () {
-        //     $(this).toggleClass('flipped');
-        // });
         $('#maGalerie').append(carte);
     }); 
 }
 
 function reverseCard() {
+    coups++
+    $('.coups').text('Nombre de coups :' + coups)
     let counter = 0;
-
+    let counterCartes = 0;
+    let srcs =[]
+    let flippedCards =[]
+     // Attacher le gestionnaire de clic initial
+     $('.carte').on('click', handleCarteClick);
+     
+     
     // Créer une fonction de gestionnaire de clics distincte
-    function handleCarteClick() {
+    function handleCarteClick(e) {
+        coups++
+        $('.coups').text('Nombre de coups :' + coups)
+        if ($(this).hasClass('flipped')) return
         $(this).addClass('flipped');
-        
+        flippedCards[counter] = $(this)
+        srcs[counter] = $(e.target).closest('div').next('div').find('img').attr('src');
         counter++;
-        console.log('Compteur : ' + counter);
-
         if (counter >= 2) {
-            console.log('Attente de 3 secondes...');
-            // Désactiver le clic sur toutes les cartes
-            $('.carte').off('click', handleCarteClick);
-
-            setTimeout(function() {
+            if (srcs[0] != srcs[1]) {
+                // Désactiver le clic sur toutes les cartes
+                $('.carte').off('click', handleCarteClick);
+                setTimeout(function() {
                 counter = 0;
-                console.log('Compteur remis à zéro');
+                flippedCards[0].removeClass('flipped')
+                flippedCards[1].removeClass('flipped')
                 // Réactiver le clic après 3 secondes
                 $('.carte').on('click', handleCarteClick);
             }, 3000);
+            }else {
+                counter = 0;
+                counterCartes += 2
+                if(counterCartes === cards.length){
+                    let score = Math.round(cards.length/coups*10)
+                    updateCurentUser(score)
+                    updateBestScore(score)
+                    $('.text').text('Bravo! Vous avez gagné!')
+                    $('.coups').text(`Votre score final : ${score}`)
+                } return
+            }
         }
     }
-
-    // Attacher le gestionnaire de clic initial
-    $('.carte').on('click', handleCarteClick);
 }
-
 
 function addCards(cards){
     cards.forEach(src => {
@@ -169,4 +171,58 @@ function addCards(cards){
 }
 function removeCards(cards){
     $('#maGalerie div').remove()
+}
+
+function updateBestScore(score){
+ let bestScores = getLocalArray('bestScores')
+ let curentUser = getLocalArray('curentUser')
+ let playrInfo = {
+    pseudo : curentUser.email,
+    score : score,
+    size : curentUser.size,
+    choix : curentUser.choixMemory,
+    date : curentDate ()
+ }
+ 
+ bestScores.push(playrInfo)
+ localStorage.removeItem('bestScores')
+ 
+ localStorage.setItem('bestScores', JSON.stringify(bestScores))
+ displayBestScore()
+}
+
+function displayBestScore(){
+    let bestScores = getLocalArray('bestScores') 
+    for (let i = 0; i < bestScores.length; i++) {
+        $(`#bst-pseudo${i}`).text(bestScores[i].pseudo)
+        $(`#bst-score${i}`).text(bestScores[i].score)
+        $(`#bst-size${i}`).text(bestScores[i].size)
+        $(`#bst-choix${i}`).text(bestScores[i].choix)
+        $(`#bst-date${i}`).text(bestScores[i].date) 
+    }  
+}
+
+function getLocalArray(element){
+    if(localStorage.getItem(element))  {
+        return JSON.parse(localStorage.getItem(element))
+    }else {
+        return []
+    }
+}
+
+function updateCurentUser(score) { 
+ let curentUser = getLocalArray('curentUser')
+ curentUser.score = score
+ curentUser.date = curentDate ()
+ localStorage.removeItem('curentUser')
+ localStorage.setItem('curentUser', JSON.stringify(curentUser)) 
+}
+
+function curentDate (){
+    let now = new Date();
+    let jour = String(now.getDate()).padStart(2, '0');
+    let mois = String(now.getMonth() + 1).padStart(2, '0'); // Mois = 0 à 11
+    let annee = now.getFullYear();
+    let dateFormatee = jour + '/' + mois + '/' + annee;
+    return dateFormatee
 }
